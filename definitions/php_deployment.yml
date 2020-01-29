@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php
+  labels:
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: php
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: php
+        tier: backend
+    spec:
+      volumes:
+      - name: www
+        hostPath:
+          path: /home/docker/www/
+      containers:
+      - name: php
+        image: drizzlyowl/php:7.4-fpm-alpine-wp
+        volumeMounts:
+          - name: www
+            mountPath: /var/www/html
